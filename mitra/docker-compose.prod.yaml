@@ -1,0 +1,36 @@
+version: '3.5'
+
+services:
+  alarms:
+    image: ghcr.io/nsubrahm/alarms:${ALERTS_TAG:-latest}
+    env_file:
+      - alarms.env
+    networks:
+      - kafkastreams-network
+
+  alerts:
+    image: ghcr.io/nsubrahm/alerts:${ALARMS_TAG:-latest}
+    env_file:
+      - alerts.env
+    networks:
+      - kafkastreams-network
+
+  merger:
+    image: ghcr.io/nsubrahm/merger:${MERGER_TAG:-latest}
+    env_file:
+      - merger.env
+    networks:
+      - kafkastreams-network
+
+  events:
+    image: ghcr.io/nsubrahm/events:${EVENTS_TAG:-latest}
+    env_file:
+      - events.env
+    ports:
+      - "8080:8080"
+    networks:
+      - kafkastreams-network
+
+networks:
+  kafkastreams-network:
+    name: ks

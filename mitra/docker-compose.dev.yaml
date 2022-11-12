@@ -1,0 +1,40 @@
+version: '3.5'
+
+services:
+  alarms:
+    container_name: mitra-alarms-${MACHINE_ID:-M001}
+    image: nsubrahm/machine-alarms:v0.0.0
+    env_file:
+      - alarms.env
+    networks:
+      - kafkastreams-network
+
+  alerts:
+    container_name: mitra-alerts-${MACHINE_ID:-M001}
+    image: nsubrahm/machine-alerts:${ALERTS_TAG:-v0.0.0}
+    env_file:
+      - alerts.env
+    networks:
+      - kafkastreams-network
+
+  merger:
+    container_name: mitra-merger-${MACHINE_ID:-M001}
+    image: nsubrahm/machine-merger:v0.0.0
+    env_file:
+      - merger.env
+    networks:
+      - kafkastreams-network
+
+  events:
+    container_name: mitra-events-${MACHINE_ID:-M001}
+    image: nsubrahm/machine-events:v0.0.0
+    env_file:
+      - events.env
+    ports:
+      - "8080:8080"
+    networks:
+      - kafkastreams-network
+
+networks:
+  kafkastreams-network:
+    name: ks
