@@ -3,7 +3,7 @@ version: '3.5'
 services:
   alarms:
     container_name: mitra-alarms-${MACHINE_ID:-M001}
-    image: nsubrahm/machine-alarms:v0.0.0
+    image: nsubrahm/machine-alarms:${ALARMS_TAG:-v0.0.0}
     env_file:
       - alarms.env
     networks:
@@ -19,7 +19,7 @@ services:
 
   merger:
     container_name: mitra-merger-${MACHINE_ID:-M001}
-    image: nsubrahm/machine-merger:v0.0.0
+    image: nsubrahm/machine-merger:${MERGER_TAG:-v0.0.0}
     env_file:
       - merger.env
     networks:
@@ -27,7 +27,7 @@ services:
 
   events:
     container_name: mitra-events-${MACHINE_ID:-M001}
-    image: nsubrahm/machine-events:v0.0.0
+    image: nsubrahm/machine-events:${EVENTS_TAG:-v0.0.0}
     env_file:
       - events.env
     ports:

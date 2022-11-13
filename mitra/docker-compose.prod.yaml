@@ -2,28 +2,32 @@ version: '3.5'
 
 services:
   alarms:
-    image: ghcr.io/nsubrahm/alarms:${ALERTS_TAG:-latest}
+    container_name: mitra-alarms-${MACHINE_ID:-M001}
+    image: ${CONTAINER_REGISTRY}/nsubrahm/alarms:${ALERTS_TAG:-latest}
     env_file:
       - alarms.env
     networks:
       - kafkastreams-network
 
   alerts:
-    image: ghcr.io/nsubrahm/alerts:${ALARMS_TAG:-latest}
+    container_name: mitra-alerts-${MACHINE_ID:-M001}
+    image: ${CONTAINER_REGISTRY}/nsubrahm/alerts:${ALARMS_TAG:-latest}
     env_file:
       - alerts.env
     networks:
       - kafkastreams-network
 
   merger:
-    image: ghcr.io/nsubrahm/merger:${MERGER_TAG:-latest}
+    container_name: mitra-merger-${MACHINE_ID:-M001}
+    image: ${CONTAINER_REGISTRY}/nsubrahm/merger:${MERGER_TAG:-latest}
     env_file:
       - merger.env
     networks:
       - kafkastreams-network
 
   events:
-    image: ghcr.io/nsubrahm/events:${EVENTS_TAG:-latest}
+    container_name: mitra-events-${MACHINE_ID:-M001}
+    image: ${CONTAINER_REGISTRY}/nsubrahm/events:${EVENTS_TAG:-latest}
     env_file:
       - events.env
     ports:
