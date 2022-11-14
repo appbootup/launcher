@@ -29,7 +29,7 @@ services:
     container_name: mitra-events-${MACHINE_ID:-M001}
     image: nsubrahm/machine-events:${EVENTS_TAG:-v0.0.0}
     env_file:
-      - events.env
+      - streamer.env
     ports:
       - "8080:8080"
     networks:

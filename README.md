@@ -25,12 +25,12 @@ export PROJECT_HOME=${PWD}/launcher
 
 1. Configure the following environment files for corresponding container images before launching the development or production version.
 
-| File name    | Conatainer image  |
-| ------------ | ----------------- |
-| `alerts.env` | `nsubrahm/alerts` |
-| `alarms.env` | `nsubrahm/alarms` |
-| `merger.env` | `nsubrahm/merger` |
-| `events.env` | `nsubrahm/events` |
+| File name      | Conatainer image    |
+| -------------- | ------------------- |
+| `alerts.env`   | `nsubrahm/alerts`   |
+| `alarms.env`   | `nsubrahm/alarms`   |
+| `merger.env`   | `nsubrahm/merger`   |
+| `streamer.env` | `nsubrahm/streamer` |
 
 2. Configure either of the following environment files depending on version to be launched - development or production.
 

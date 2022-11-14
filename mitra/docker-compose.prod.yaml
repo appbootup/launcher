@@ -3,7 +3,7 @@ version: '3.5'
 services:
   alarms:
     container_name: mitra-alarms-${MACHINE_ID:-M001}
-    image: ${CONTAINER_REGISTRY}/nsubrahm/alarms:${ALERTS_TAG:-latest}
+    image: ${CONTAINER_REGISTRY}/${CONTAINER_REPOSITORY}/alarms:${ALERTS_TAG:-latest}
     env_file:
       - alarms.env
     networks:
@@ -11,7 +11,7 @@ services:
 
   alerts:
     container_name: mitra-alerts-${MACHINE_ID:-M001}
-    image: ${CONTAINER_REGISTRY}/nsubrahm/alerts:${ALARMS_TAG:-latest}
+    image: ${CONTAINER_REGISTRY}/${CONTAINER_REPOSITORY}/alerts:${ALARMS_TAG:-latest}
     env_file:
       - alerts.env
     networks:
@@ -19,17 +19,17 @@ services:
 
   merger:
     container_name: mitra-merger-${MACHINE_ID:-M001}
-    image: ${CONTAINER_REGISTRY}/nsubrahm/merger:${MERGER_TAG:-latest}
+    image: ${CONTAINER_REGISTRY}/${CONTAINER_REPOSITORY}/merger:${MERGER_TAG:-latest}
     env_file:
       - merger.env
     networks:
       - kafkastreams-network
 
-  events:
-    container_name: mitra-events-${MACHINE_ID:-M001}
-    image: ${CONTAINER_REGISTRY}/nsubrahm/events:${EVENTS_TAG:-latest}
+  streamer:
+    container_name: mitra-streamer-${MACHINE_ID:-M001}
+    image: ${CONTAINER_REGISTRY}/${CONTAINER_REPOSITORY}/streamer:${STREAMER_TAG:-latest}
     env_file:
-      - events.env
+      - streamer.env
     ports:
       - "8080:8080"
     networks:
