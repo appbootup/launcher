@@ -3,7 +3,7 @@
 This repository has instructions to launch the `mitra` application.
 
 - [Introduction](#introduction)
-  - [Configure](#configure)
+  - [Getting started](#getting-started)
     - [Clone repository](#clone-repository)
     - [Configuration](#configuration)
   - [Launch](#launch)
@@ -12,7 +12,7 @@ This repository has instructions to launch the `mitra` application.
     - [Development version](#development-version)
     - [Production version](#production-version)
 
-## Configure
+## Getting started
 
 ### Clone repository
 
@@ -23,12 +23,15 @@ export PROJECT_HOME=${PWD}/launcher
 
 ### Configuration
 
+For complete details on all configuration files, see [here](docs/config.md). These environment variables should be kept in a folder as set in `ENV_HOME` variable in `prod.env` file. By default, `ENV_HOME` is set to `$HOME/env`.
+
 1. Configure the following environment files for corresponding container images before launching the development or production version.
 
 | File name      | Conatainer image    |
 | -------------- | ------------------- |
-| `alerts.env`   | `nsubrahm/alerts`   |
 | `alarms.env`   | `nsubrahm/alarms`   |
+| `alerts.env`   | `nsubrahm/alerts`   |
+| `cleaner.env`  | `nsubrahm/cleaner`  |
 | `merger.env`   | `nsubrahm/merger`   |
 | `streamer.env` | `nsubrahm/streamer` |
 
@@ -61,9 +64,10 @@ docker compose up -d
 ### Login to GHCR
 
 ```bash
-# Save token in $CR_PAT
+# Setup environment variables
 export CR_PAT=
-echo $CR_PAT | docker login ghcr.io -u USERNAME --password-stdin
+export USERNAME=
+echo $CR_PAT | docker login ghcr.io -u $USERNAME --password-stdin
 ```
 
 ### Development version

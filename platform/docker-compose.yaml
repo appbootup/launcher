@@ -2,8 +2,8 @@ version: '3.5'
 
 services:
   zookeeper:
-    image: confluentinc/cp-zookeeper:7.2.2
     container_name: zookeeper
+    image: confluentinc/cp-zookeeper:7.2.2
     ports:
       - "2181:2181"
     env_file:
@@ -12,8 +12,8 @@ services:
       - kafkastreams-network
 
   broker:
-    image: confluentinc/cp-kafka:7.2.2
     container_name: broker
+    image: confluentinc/cp-kafka:7.2.2
     depends_on:
       - zookeeper
     ports:
@@ -24,6 +24,7 @@ services:
       - kafkastreams-network
 
   node-red:
+    container_name: node-red
     image: nodered/node-red:latest
     environment:
       - TZ=Asia/Kolkata
@@ -36,7 +37,6 @@ services:
 
 volumes:
   node-red-data:
-
 
 networks:
   kafkastreams-network:

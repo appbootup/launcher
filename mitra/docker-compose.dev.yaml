@@ -1,6 +1,22 @@
 version: '3.5'
 
 services:
+  cleaner:
+    container_name: mitra-cleaner-${MACHINE_ID:-M001}
+    image: nsubrahm/machine-cleaner:${CLEANER_TAG:-v0.0.0}
+    env_file:
+      - cleaner.env
+    ports:
+      - "8080:8080"
+    healthcheck:
+      test: wget --no-verbose --tries=1 http://localhost:8080/health || exit 1
+      interval: 10s
+      timeout: 2s
+      retries: 3
+      start_period: 10s
+    networks:
+      - kafkastreams-network
+
   alarms:
     container_name: mitra-alarms-${MACHINE_ID:-M001}
     image: nsubrahm/machine-alarms:${ALARMS_TAG:-v0.0.0}
@@ -25,9 +41,9 @@ services:
     networks:
       - kafkastreams-network
 
-  events:
-    container_name: mitra-events-${MACHINE_ID:-M001}
-    image: nsubrahm/machine-events:${EVENTS_TAG:-v0.0.0}
+  streamer:
+    container_name: mitra-streamer-${MACHINE_ID:-M001}
+    image: nsubrahm/machine-streamer:${STREAMER_TAG:-v0.0.0}
     env_file:
       - streamer.env
     ports:
