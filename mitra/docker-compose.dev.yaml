@@ -17,6 +17,24 @@ services:
     networks:
       - kafkastreams-network
 
+  limits:
+    coontainer_name: mitra-limits-${MACHINE_ID:-M001}
+    image: nsubrahm/machine-limits:${LIMITS_TAG:-v0.0.0}
+    build:
+      dockerfile: ./Dockerfile
+    ports:
+      - "8080:8080"
+    env_file:
+      - limits.env
+    healthcheck:
+      test: wget --no-verbose --tries=1 http://localhost:8080/health || exit 1
+      interval: 10s
+      timeout: 1s
+      retries: 3
+      start_period: 10s
+    networks:
+      - kafkastreams-network
+
   alarms:
     container_name: mitra-alarms-${MACHINE_ID:-M001}
     image: nsubrahm/machine-alarms:${ALARMS_TAG:-v0.0.0}

@@ -15,6 +15,20 @@ services:
     networks:
       - kafkastreams-network
 
+  limits:
+    container_name: mitra-limits-${MACHINE_ID:-M001}
+    image: ${CONTAINER_REGISTRY}/${CONTAINER_REPOSITORY}/limits:${LIMITS_TAG:-latest}
+    env_file:
+      - limits.env
+    healthcheck:
+      test: wget --no-verbose --tries=1 http://localhost:8080/health || exit 1
+      interval: 2s
+      timeout: 1s
+      retries: 3
+      start_period: 10s
+    networks:
+      - kafkastreams-network
+
   alarms:
     container_name: mitra-alarms-${MACHINE_ID:-M001}
     image: ${CONTAINER_REGISTRY}/${CONTAINER_REPOSITORY}/alarms:${ALERTS_TAG:-latest}
