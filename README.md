@@ -32,6 +32,7 @@ For complete details on all configuration files, see [here](docs/config.md). The
 | `alarms.env`   | `nsubrahm/alarms`   |
 | `alerts.env`   | `nsubrahm/alerts`   |
 | `cleaner.env`  | `nsubrahm/cleaner`  |
+| `limits.env`   | `nsubrahm/limits`   |
 | `merger.env`   | `nsubrahm/merger`   |
 | `streamer.env` | `nsubrahm/streamer` |
 
