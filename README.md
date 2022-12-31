@@ -4,21 +4,17 @@ This repository has instructions to launch the Maintenace Mitra application.
 
 - [Introduction](#introduction)
   - [Launch](#launch)
-    - [Clone repository](#clone-repository)
-    - [Platform set-up](#platform-set-up)
-    - [Login to GHCR](#login-to-ghcr)
-    - [Production version](#production-version)
 
 ## Launch
 
-### Clone repository
+1. Clone the repository
 
 ```bash
 git clone https://github.com/nsubrahm/launcher
 export PROJECT_HOME=${PWD}/launcher
 ```
 
-### Platform set-up
+2. Set-up platform components.
 
 ```bash
 # Start platform components
@@ -29,16 +25,18 @@ cd ${PROJECT_HOME}/init
 docker compose up -d
 ```
 
-### Login to GHCR
+3. Login to GitHub Container Registry.
+
+> Contact us for values of `USERNAME` and `CR_PAT`
 
 ```bash
 # Setup environment variables
-export CR_PAT=
 export USERNAME=
+export CR_PAT=
 echo $CR_PAT | docker login ghcr.io -u $USERNAME --password-stdin
 ```
 
-### Production version
+4. Start-up application
 
 ```bash
 # Start application
