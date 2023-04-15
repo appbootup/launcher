@@ -2,18 +2,19 @@ version: '3.5'
 
 services:
   init:
+    container_name: init
     image: confluentinc/cp-kafka:7.2.2
     entrypoint: [ '/bin/sh', '-c' ]
     command: |
       "
-      kafka-topics --bootstrap-server broker:9092 --create --if-not-exists --topic m001_data   --replication-factor 1 --partitions 1
-      kafka-topics --bootstrap-server broker:9092 --create --if-not-exists --topic m001_limits --replication-factor 1 --partitions 1
-      kafka-topics --bootstrap-server broker:9092 --create --if-not-exists --topic m001_alarms --replication-factor 1 --partitions 1
-      kafka-topics --bootstrap-server broker:9092 --create --if-not-exists --topic m001_alerts --replication-factor 1 --partitions 1
-      kafka-topics --bootstrap-server broker:9092 --create --if-not-exists --topic m001_events --replication-factor 1 --partitions 1
+      /etc/scripts/init.sh
       "
+    env_file:
+      - ./conf/init.env
     networks:
       - kafkastreams-network
+    volumes:
+      - ./scripts:/etc/scripts
 
 networks:
   kafkastreams-network:
