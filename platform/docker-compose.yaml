@@ -7,9 +7,11 @@ services:
     ports:
       - "2181:2181"
     env_file:
-      - zk.env
+      - ./env_files/zk.env
     networks:
       - kafkastreams-network
+    volumes:
+      - ./conf:/etc/kafka/secrets
 
   broker:
     container_name: broker
@@ -17,11 +19,14 @@ services:
     depends_on:
       - zookeeper
     ports:
-      - "9092:9092"
+      - "29092:29092"
+      - "29093:29093"
     env_file:
-      - kafka.env
+      - ./env_files/kafka.env
     networks:
       - kafkastreams-network
+    volumes:
+      - ./conf:/etc/kafka/secrets
 
   node-red:
     container_name: node-red
