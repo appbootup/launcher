@@ -6,10 +6,8 @@ services:
     image: confluentinc/cp-zookeeper:7.2.2
     ports:
       - "2181:2181"
-    environment:
-      - KAFKA_OPTS=-Djava.security.auth.login.config=/etc/kafka/secrets/zk_jaas.conf
     env_file:
-      - ./conf/zk.env
+      - ./env_files/zk.env
     networks:
       - kafkastreams-network
     volumes:
@@ -23,10 +21,8 @@ services:
     ports:
       - "29092:29092"
       - "29093:29093"
-    environment:
-      - KAFKA_OPTS=-Djava.security.auth.login.config=/etc/kafka/secrets/broker_jaas.conf
     env_file:
-      - ./conf/kafka.env
+      - ./env_files/kafka.env
     networks:
       - kafkastreams-network
     volumes:

@@ -10,10 +10,11 @@ services:
       /etc/scripts/init.sh
       "
     env_file:
-      - ./conf/init.env
+      - ./env_files/init.env
     networks:
       - kafkastreams-network
     volumes:
+      - ./conf:/etc/kafka/secrets
       - ./scripts:/etc/scripts
 
 networks:
