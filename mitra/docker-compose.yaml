@@ -6,6 +6,7 @@ services:
     image: ${CONTAINER_REGISTRY}/${CONTAINER_REPOSITORY}/cleaner:${CLEANER_TAG:-latest}
     env_file:
       - ./conf/cleaner.env
+      - ./conf/sasl-auth.env
     healthcheck:
       test: wget --no-verbose --tries=1 http://localhost:8080/health || exit 1
       interval: 2s
@@ -20,6 +21,7 @@ services:
     image: ${CONTAINER_REGISTRY}/${CONTAINER_REPOSITORY}/limits:${LIMITS_TAG:-latest}
     env_file:
       - ./conf/limits.env
+      - ./conf/sasl-auth.env
     healthcheck:
       test: wget --no-verbose --tries=1 http://localhost:8080/health || exit 1
       interval: 2s

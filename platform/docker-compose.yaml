@@ -19,7 +19,6 @@ services:
     depends_on:
       - zookeeper
     ports:
-      - "29092:29092"
       - "29093:29093"
     env_file:
       - ./env_files/kafka.env
