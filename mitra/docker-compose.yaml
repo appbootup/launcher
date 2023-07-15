@@ -61,7 +61,17 @@ services:
     env_file:
       - ./conf/streamer.env
     ports:
-      - "8080:8080"
+      - ${EVENTS_PORT}:${EVENTS_PORT}
+    networks:
+      - kafkastreams-network
+
+  dashboard:
+    container_name: mitra-dashboard-${MACHINE_ID:-M001}
+    image: nsubrahm/dashboard:v0.0.0
+    env_file:
+      - ./conf/dashboard.env
+    ports:
+      - ${UI_PORT}:${UI_PORT}
     networks:
       - kafkastreams-network
 
