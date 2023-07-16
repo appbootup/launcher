@@ -27,21 +27,6 @@ services:
     volumes:
       - ./conf:/etc/kafka/secrets
 
-  node-red:
-    container_name: node-red
-    image: nodered/node-red:latest
-    environment:
-      - TZ=Asia/Kolkata
-    ports:
-      - "1880:1880"
-    networks:
-      - kafkastreams-network
-    volumes:
-      - node-red-data:/data
-
-volumes:
-  node-red-data:
-
 networks:
   kafkastreams-network:
     name: ks
