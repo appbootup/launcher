@@ -62,3 +62,7 @@ echo $CR_PAT | docker login ghcr.io -u USERNAME --password-stdin
 cd ${PROJECT_HOME}/mitra
 docker compose --env-file deploy.env up -d
 ```
+
+4. Access dashboard.
+
+If the `/data` end-point is receiving data, then the dashboard will be live at [`http://localhost:1881/ui`](http://localhost:1881/ui). The `port` number is based on the configuration `UI_PORT` in `conf/dashboard.env`.
