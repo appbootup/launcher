@@ -5,6 +5,7 @@ services:
     container_name: mitra-cleaner-${MACHINE_ID:-M001}
     image: ${CONTAINER_REGISTRY}/${CONTAINER_REPOSITORY}/cleaner:${CLEANER_TAG:-latest}
     env_file:
+      - ./conf/common.env
       - ./conf/cleaner.env
       - ./conf/sasl-auth.env
     healthcheck:
@@ -20,6 +21,7 @@ services:
     container_name: mitra-limits-${MACHINE_ID:-M001}
     image: ${CONTAINER_REGISTRY}/${CONTAINER_REPOSITORY}/limits:${LIMITS_TAG:-latest}
     env_file:
+      - ./conf/common.env    
       - ./conf/limits.env
       - ./conf/sasl-auth.env
     healthcheck:
@@ -35,7 +37,14 @@ services:
     container_name: mitra-alarms-${MACHINE_ID:-M001}
     image: ${CONTAINER_REGISTRY}/${CONTAINER_REPOSITORY}/alarms:${ALERTS_TAG:-latest}
     env_file:
+      - ./conf/common.env    
       - ./conf/alarms.env
+    healthcheck:
+      test: wget --no-verbose --tries=1 http://localhost:8080/q/health || exit 1
+      interval: 2s
+      timeout: 1s
+      retries: 3
+      start_period: 10s      
     networks:
       - kafkastreams-network
 
@@ -43,7 +52,14 @@ services:
     container_name: mitra-alerts-${MACHINE_ID:-M001}
     image: ${CONTAINER_REGISTRY}/${CONTAINER_REPOSITORY}/alerts:${ALARMS_TAG:-latest}
     env_file:
+      - ./conf/common.env    
       - ./conf/alerts.env
+    healthcheck:
+      test: wget --no-verbose --tries=1 http://localhost:8080/q/health || exit 1
+      interval: 2s
+      timeout: 1s
+      retries: 3
+      start_period: 10s      
     networks:
       - kafkastreams-network
 
@@ -51,7 +67,14 @@ services:
     container_name: mitra-merger-${MACHINE_ID:-M001}
     image: ${CONTAINER_REGISTRY}/${CONTAINER_REPOSITORY}/merger:${MERGER_TAG:-latest}
     env_file:
+      - ./conf/common.env    
       - ./conf/merger.env
+    healthcheck:
+      test: wget --no-verbose --tries=1 http://localhost:8080/q/health || exit 1
+      interval: 2s
+      timeout: 1s
+      retries: 3
+      start_period: 10s      
     networks:
       - kafkastreams-network
 
@@ -59,7 +82,14 @@ services:
     container_name: mitra-streamer-${MACHINE_ID:-M001}
     image: ${CONTAINER_REGISTRY}/${CONTAINER_REPOSITORY}/streamer:${STREAMER_TAG:-latest}
     env_file:
+      - ./conf/common.env    
       - ./conf/streamer.env
+    healthcheck:
+      test: wget --no-verbose --tries=1 http://localhost:8080/q/health || exit 1
+      interval: 2s
+      timeout: 1s
+      retries: 3
+      start_period: 10s      
     ports:
       - ${EVENTS_PORT}:${EVENTS_PORT}
     networks:
@@ -67,8 +97,9 @@ services:
 
   dashboard:
     container_name: mitra-dashboard-${MACHINE_ID:-M001}
-    image: nsubrahm/dashboard:v0.0.0
+    image: ${CONTAINER_REGISTRY}/${CONTAINER_REPOSITORY}/dashboard:${DASHBOARD_TAG:-latest}
     env_file:
+      - ./conf/common.env    
       - ./conf/dashboard.env
     ports:
       - ${UI_PORT}:${UI_PORT}
