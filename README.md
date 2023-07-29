@@ -9,12 +9,9 @@ This repository has instructions to launch the Maintenace Mitra application.
 
 ## Launch
 
-Launching of **Maintenance Mitra** is a two-step process.
+Launching of **Maintenance Mitra** is a two-step process where, the platform components are launched first. Then, the application is launched.
 
-1. Platform
-2. Application
-
-Start with cloning the repository with the following command.
+1. Start with cloning the repository with the following command.
 
 ```bash
 git clone https://github.com/nsubrahm/launcher
@@ -23,19 +20,14 @@ export PROJECT_HOME=${PWD}/launcher
 
 ### Platform
 
-> To configure the launch of the platform, see [Platform configuration guide](./platform/conf.md).
-
-1. Set-up and launch platform components.
+1. Launch platform components.
 
 ```bash
-# Start platform components
 cd ${PROJECT_HOME}/platform
-docker compose up -d
+docker compose --env-file platform.env up -d
 ```
 
 ### Application
-
-> To configure the launch of the application, refer the configuration section in respective applications. If no configuration changes are made, the application will run with 'sensible' defaults. Default configuration of platform will be used if no configuration changes are made.
 
 1. Create required topics.
 
@@ -45,24 +37,14 @@ cd ${PROJECT_HOME}/init
 docker compose up -d
 ```
 
-2. Login to GitHub Container Registry with `docker` CLI so that container images can be downloaded.
-
-> [Contact us](https://maintenance-mitra.com/signup) for value of `CR_PAT`
-
-```bash
-# Setup environment variables
-export CR_PAT=
-echo $CR_PAT | docker login ghcr.io -u USERNAME --password-stdin
-```
-
-3. Start-up.
+2. Start-up.
 
 ```bash
 # Start application
 cd ${PROJECT_HOME}/mitra
-docker compose --env-file deploy.env up -d
+docker compose --env-file app.env up -d
 ```
 
-4. Access dashboard.
+3. Access dashboard.
 
 If the `/data` end-point is receiving data, then the dashboard will be live at [`http://localhost:1881/ui`](http://localhost:1881/ui). The `port` number is based on the configuration `UI_PORT` in `conf/dashboard.env`.
