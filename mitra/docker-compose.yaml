@@ -1,12 +1,12 @@
 version: '3.5'
 
 services:
-  cleaner:
-    container_name: mitra-cleaner-${MACHINE_ID:-M001}
-    image: ${CONTAINER_REGISTRY}/${CONTAINER_REPOSITORY}/cleaner:${CLEANER_TAG:-latest}
+  payload:
+    container_name: mitra-payload-${MACHINE_ID:-M001}
+    image: ${CONTAINER_REGISTRY}/${CONTAINER_REPOSITORY}/payload:${PAYLOAD_TAG:-latest}
     env_file:
       - ./conf/common.env
-      - ./conf/cleaner.env
+      - ./conf/payload.env
       - ./conf/sasl-auth.env
     healthcheck:
       test: wget --no-verbose --tries=1 http://localhost:8080/health || exit 1
@@ -15,7 +15,7 @@ services:
       retries: 3
       start_period: 10s
     networks:
-      - kafkastreams-network
+      - core
 
   limits:
     container_name: mitra-limits-${MACHINE_ID:-M001}
@@ -31,7 +31,7 @@ services:
       retries: 3
       start_period: 10s
     networks:
-      - kafkastreams-network
+      - core
 
   alarms:
     container_name: mitra-alarms-${MACHINE_ID:-M001}
@@ -46,7 +46,7 @@ services:
       retries: 3
       start_period: 10s      
     networks:
-      - kafkastreams-network
+      - core
 
   alerts:
     container_name: mitra-alerts-${MACHINE_ID:-M001}
@@ -61,7 +61,7 @@ services:
       retries: 3
       start_period: 10s      
     networks:
-      - kafkastreams-network
+      - core
 
   merger:
     container_name: mitra-merger-${MACHINE_ID:-M001}
@@ -76,7 +76,7 @@ services:
       retries: 3
       start_period: 10s      
     networks:
-      - kafkastreams-network
+      - core
 
   streamer:
     container_name: mitra-streamer-${MACHINE_ID:-M001}
@@ -93,7 +93,7 @@ services:
     ports:
       - ${EVENTS_PORT}:${EVENTS_PORT}
     networks:
-      - kafkastreams-network
+      - core
 
   dashboard:
     container_name: mitra-dashboard-${MACHINE_ID:-M001}
@@ -104,8 +104,8 @@ services:
     ports:
       - ${UI_PORT}:${UI_PORT}
     networks:
-      - kafkastreams-network
+      - core
 
 networks:
-  kafkastreams-network:
-    name: ks
+  core:
+    name: core
