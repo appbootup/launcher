@@ -3,48 +3,33 @@
 This repository has instructions to launch the Maintenace Mitra application.
 
 - [Introduction](#introduction)
-  - [Launch](#launch)
-    - [Platform](#platform)
-    - [Application](#application)
+  - [Quick start](#quick-start)
+  - [Configuration](#configuration)
+    - [Limits](#limits)
 
-## Launch
+## Quick start
 
-Launching of **Maintenance Mitra** is a two-step process where, the platform components are launched first. Then, the application is launched.
+> The following steps will launch the application without configuring the `limits` application. As a result, no alerts will be raised. To generate alerts, configure the `limits` application, see [Configuration](#configuration).
 
-1. Start with cloning the repository with the following command.
+1. Clone repository.
 
 ```bash
 git clone https://github.com/nsubrahm/launcher
-export PROJECT_HOME=${PWD}/launcher
+cd ${PROJECT_HOME}/launch
 ```
 
-### Platform
-
-1. Launch platform components.
+2. Launch application.
 
 ```bash
-cd ${PROJECT_HOME}/platform
-docker compose --env-file platform.env up -d
-```
-
-### Application
-
-1. Create required topics.
-
-```bash
-# Create topics
-cd ${PROJECT_HOME}/init
-docker compose up -d
-```
-
-2. Start-up.
-
-```bash
-# Start application
-cd ${PROJECT_HOME}/mitra
-docker compose --env-file app.env up -d
+docker compose --env-file launch.env up -d
 ```
 
 3. Access dashboard.
 
 If the `/data` end-point is receiving data, then the dashboard will be live at [`http://localhost:1881/ui`](http://localhost:1881/ui). The `port` number is based on the configuration `UI_PORT` in `conf/dashboard.env`.
+
+## Configuration
+
+The `limits` applications should be configured to generate alerts. While the configuration parameters exist for other applications - see [`conf`](./launch/conf/) - they should not be changed. Therefore, the documentation is purposely omitted.
+
+### Limits
