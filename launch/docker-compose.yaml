@@ -1,20 +1,9 @@
 version: '3.5'
 
 services:
-  registry:
-    container_name: mitra-registry
-    image: ${CONTAINER_REGISTRY}/${CONTAINER_REPOSITORY}/registry:${REGISTRY_TAG:-latest}
-    ports:
-      - 5000:5000
-    networks:
-      - core
-    restart: always
-
   zookeeper:
     container_name: mitra-zookeeper
     image: ${CONTAINER_REGISTRY}/${CONTAINER_REPOSITORY}/zookeeper:${ZOOKEEPER_TAG:-latest}
-    depends_on:
-      - registry
     ports:
       - "2181:2181"
     env_file:
@@ -27,7 +16,6 @@ services:
     container_name: mitra-broker
     image: ${CONTAINER_REGISTRY}/${CONTAINER_REPOSITORY}/kafka:${KAFKA_TAG:-latest}
     depends_on:
-      - registry
       - zookeeper
     ports:
       - "29093:29093"
@@ -38,8 +26,8 @@ services:
     restart: always
 
   init:
-    container_name: mitra-init
-    image: confluentinc/cp-kafka:7.2.2
+    container_name: mitra-init-${MACHINE_ID:-M001}
+    image: ${CONTAINER_REGISTRY}/${CONTAINER_REPOSITORY}/kafka:${KAFKA_TAG:-latest}
     depends_on:
       - broker
     entrypoint: [ '/bin/sh', '-c' ]
@@ -94,7 +82,7 @@ services:
     container_name: mitra-alarms-${MACHINE_ID:-M001}
     image: ${CONTAINER_REGISTRY}/${CONTAINER_REPOSITORY}/alarms:${ALARMS_TAG:-latest}
     depends_on:
-      - init
+      - payload
     env_file:
       - ./conf/common.env    
       - ./conf/alarms.env
@@ -111,7 +99,7 @@ services:
     container_name: mitra-alerts-${MACHINE_ID:-M001}
     image: ${CONTAINER_REGISTRY}/${CONTAINER_REPOSITORY}/alerts:${ALERTS_TAG:-latest}
     depends_on:
-      - init
+      - payload
     env_file:
       - ./conf/common.env    
       - ./conf/alerts.env
@@ -128,7 +116,8 @@ services:
     container_name: mitra-merger-${MACHINE_ID:-M001}
     image: ${CONTAINER_REGISTRY}/${CONTAINER_REPOSITORY}/merger:${MERGER_TAG:-latest}
     depends_on:
-      - init
+      - alarms
+      - alerts
     env_file:
       - ./conf/common.env    
       - ./conf/merger.env
@@ -145,7 +134,7 @@ services:
     container_name: mitra-streamer-${MACHINE_ID:-M001}
     image: ${CONTAINER_REGISTRY}/${CONTAINER_REPOSITORY}/streamer:${STREAMER_TAG:-latest}
     depends_on:
-      - init
+      - merger
     env_file:
       - ./conf/common.env    
       - ./conf/streamer.env
@@ -163,6 +152,8 @@ services:
   dashboard:
     container_name: mitra-dashboard-${MACHINE_ID:-M001}
     image: ${CONTAINER_REGISTRY}/${CONTAINER_REPOSITORY}/dashboard:${DASHBOARD_TAG:-latest}
+    depends_on:
+      - streamer
     env_file:
       - ./conf/common.env    
       - ./conf/dashboard.env

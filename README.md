@@ -4,8 +4,7 @@ This repository has instructions to launch the Maintenace Mitra application.
 
 - [Introduction](#introduction)
   - [Quick start](#quick-start)
-  - [Configuration](#configuration)
-    - [Limits](#limits)
+  - [Limits](#limits)
 
 ## Quick start
 
@@ -28,8 +27,6 @@ docker compose --env-file launch.env up -d
 
 If the `/data` end-point is receiving data, then the dashboard will be live at [`http://localhost:1881/ui`](http://localhost:1881/ui). The `port` number is based on the configuration `UI_PORT` in `conf/dashboard.env`.
 
-## Configuration
+## Limits
 
-The `limits` applications should be configured to generate alerts. While the configuration parameters exist for other applications - see [`conf`](./launch/conf/) - they should not be changed. Therefore, the documentation is purposely omitted.
-
-### Limits
+The `limits` application should be configured to generate alerts.
